@@ -94,3 +94,7 @@ func (d deck) print() {
 func (d deck) printCard(i int) {
 	fmt.Println(d[i])
 }
+
+func getCardValue(c card) int {
+	return cardValueMap[c.value]
+}

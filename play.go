@@ -1,5 +1,9 @@
 package main
 
+import (
+	"sort"
+)
+
 type valueDeck struct {
 	playerId   int
 	valueCards card
@@ -32,10 +36,6 @@ func dealPlayDeck(d *deck, pd *deck) {
 
 // }
 
-func getCardValue(c card) int {
-	return cardValueMap[c.value]
-}
-
 func seven(pd deck, pl player) (id int, strength int) {
 	var tmp7Cards []card
 	tmp7Cards = make([]card, 7)
@@ -43,8 +43,8 @@ func seven(pd deck, pl player) (id int, strength int) {
 	var tmp5Cards []card
 	tmp5Cards = make([]card, 5)
 
-	// var best []card
-	// best = make([]card, 5)
+	var best []card
+	best = make([]card, 5)
 
 	id = 1
 	strength = 0
@@ -61,6 +61,10 @@ func seven(pd deck, pl player) (id int, strength int) {
 		if tmpstrength > strength {
 			strength = tmpstrength
 			id = i + 1
+			best = tmp5Cards
+		}
+		if tmpstrength == strength {
+			compareHand(tmpstrength, best)
 		}
 	}
 
@@ -68,8 +72,42 @@ func seven(pd deck, pl player) (id int, strength int) {
 
 }
 
-func evaluated(d deck) (s int) {
+// func evaluated(d deck) (s int) {
 
+// }
+
+func hasStraight(cards []card) bool {
+	values := make([]int, 5)
+	for i, card := range cards {
+		values[i] = getCardValue(card)
+	}
+
+	sort.Ints(values)
+
+	isAceLowStraight := func(value []int) bool {
+		aceLow := []int{2, 3, 4, 5, 14}
+		count := 0
+		for _, v := range value {
+			if count < 5 && v == aceLow[count] {
+				count++
+			}
+		}
+
+		return count == 5
+	}
+
+	isRegularStraight := func(value []int) bool {
+		count := 0
+		for i, _ := range value {
+			if value[i] == value[i+1]+1 {
+				count++
+			}
+		}
+
+		return count == 5
+	}
+
+	return (isRegularStraight(values) || isAceLowStraight(values))
 }
 
 var t7c5 = [21][7]uint8{
