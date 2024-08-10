@@ -76,9 +76,9 @@ func seven(pd deck, pl player) (id int, strength int) {
 
 // }
 
-func hasStraight(cards []card) bool {
+func hasStraight(decks deck) bool {
 	values := make([]int, 5)
-	for i, card := range cards {
+	for i, card := range decks {
 		values[i] = getCardValue(card)
 	}
 
@@ -108,6 +108,20 @@ func hasStraight(cards []card) bool {
 	}
 
 	return (isRegularStraight(values) || isAceLowStraight(values))
+}
+
+func getNumUniqueValue(cards []card) map[int]int {
+	uniqueMap := make(map[int]int)
+	values := make([]int, 5)
+	for i, card := range cards {
+		values[i] = getCardValue(card)
+	}
+
+	for _, value := range values {
+		uniqueMap[value]++
+	}
+
+	return uniqueMap
 }
 
 var t7c5 = [21][7]uint8{
