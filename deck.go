@@ -29,11 +29,19 @@ var cardValueMap = map[string]int{
 	"Ace":   14,
 }
 
+func getCardValue(c card) int {
+	return cardValueMap[c.value]
+}
+
 var suitValueMap = map[string]int{
 	"Spades":   3,
 	"Hearts":   2,
 	"Diamonds": 1,
 	"Clubs":    0,
+}
+
+func getSuitValue(c card) int {
+	return cardValueMap[c.suit]
 }
 
 // Create Deck
@@ -93,8 +101,4 @@ func (d deck) print() {
 
 func (d deck) printCard(i int) {
 	fmt.Println(d[i])
-}
-
-func getCardValue(c card) int {
-	return cardValueMap[c.value]
 }
