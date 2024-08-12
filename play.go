@@ -98,8 +98,8 @@ func hasStraight(decks deck) bool {
 
 	isRegularStraight := func(value []int) bool {
 		count := 0
-		for i, _ := range value {
-			if value[i] == value[i+1]+1 {
+		for i := 1; i < len(value); i++ {
+			if value[i] == value[i-1]+1 {
 				count++
 			}
 		}
@@ -108,6 +108,23 @@ func hasStraight(decks deck) bool {
 	}
 
 	return (isRegularStraight(values) || isAceLowStraight(values))
+}
+
+func hasFlush(decks deck) bool {
+	value := make([]int, 5)
+	for i, card := range decks {
+		value[i] = getSuitValue(card)
+	}
+
+	count := 0
+
+	for i := 1; i < len(value); i++ {
+		if value[i] == value[i-1] {
+			count++
+		}
+	}
+
+	return count == 5
 }
 
 func getNumUniqueValue(cards []card) map[int]int {
@@ -122,6 +139,40 @@ func getNumUniqueValue(cards []card) map[int]int {
 	}
 
 	return uniqueMap
+}
+
+func findCombination(m map[int]int) int {
+	count4 := 0
+	count3 := 0
+	count2 := 0
+
+	for _, value := range m {
+		switch value {
+		case 4:
+			count4++
+		case 3:
+			count3++
+		case 2:
+			count2++
+		}
+	}
+
+	if count4 > 0 {
+		return 3
+	}
+	if count3 > 0 && count2 > 0 {
+		return 4
+	}
+	if count3 > 0 && count2 == 0 {
+		return 7
+	}
+	if count2 > 1 {
+		return 8
+	}
+	if count2 == 1 {
+		return 9
+	}
+	return 0
 }
 
 var t7c5 = [21][7]uint8{
