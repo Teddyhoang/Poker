@@ -84,12 +84,11 @@ func (d deck) shuffle() {
 
 // Deal functions
 func deal(d *deck, players []player) {
-	for i := range 2 {
+	for i := 0; i< 2; i++ {
 		for j := range len(players) {
 			players[j].deck = append(players[j].deck, (*d)[0])
 			(*d) = (*d)[1:]
 		}
-		i++
 	}
 }
 

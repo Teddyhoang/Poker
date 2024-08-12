@@ -13,10 +13,9 @@ type valueDeck struct {
 func dealPlayDeck(d *deck, pd *deck) {
 	(*d) = (*d)[1:]
 	if len(*pd) == 0 {
-		for i := range 3 {
+		for i := 0; i < 3; i++ {
 			(*pd) = append((*pd), (*d)[0])
 			(*d) = (*d)[1:]
-			i++
 		}
 	} else {
 		(*pd) = append((*pd), (*d)[0])
